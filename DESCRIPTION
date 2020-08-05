@@ -1,0 +1,22 @@
+Package: FirstRpackage
+Title: Coursera’s: Building R Packages, First R Package
+Version: 0.0.0.9000
+Author: Marijus Brazickas <email@example.com>
+Maintainer: Marijus Brazickas <email@example.com>
+Description:  Creating, writing, documenting, and testing an R package functions that interact with data from US National Highway Traffic Safety Administration's Fatality Analysis Reporting System (FARS).
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
+Imports:
+   dplyr,
+   maps,
+   readr,
+   tidyr,
+   magrittr
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr

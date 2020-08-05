@@ -1,0 +1,85 @@
+---
+title: "FirstRpackage"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{FirstRpackage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{ setup}
+library(FirstRpackage)
+```
+
+The functions in this package are designed to process csv file data from the Fatality-Analysis-Reporting-System-(FARS). Available functionality allows us to query file names, load files if available, collect total incidents by month and display them on a map.
+
+This is a package to analyze the Fatality Analysis Reporting System (FARS).  This package was designed for the Week 4 final assignment for the "Building R Packages" course on Coursera.
+
+## The Data
+
+The data in this package is pulled from the National Highway Traffic Safety Administration Fatality Analysis Reporting System.
+
+(https://crashstats.nhtsa.dot.gov/#/DocumentTypeList/4)
+
+## Package functions
+
+The package contains 5 functions that read US National Highway Traffic Safety Administration's Fatality Analysis Reporting System (FARS) data and summarize them.
+
+## fars_read
+
+Function: fars_read, takes string filename as input and returns full data from the file in data frame.
+This function cheks if file exists. If the file does not exist, then the function stops, and displays a message that indicates the file does not exist. If the file does exist, than the file is read into R via
+the readr package. The package is than converted to a datafram using the dplyr package.
+Usage: fars_read(filename)
+Arguments: filename
+Example: fars_read("accident_2015.csv.bz2")
+
+## make_file_name
+
+Function: make_filename, takes integer year as input and returns FARS source data filename for the given year.
+This function takes an input in the form of a four digits value, a year, for example 2015 and converts the input to an integer and holds it in a variable called year.
+Usage: make_filename(year)
+Arguments: year. A string or integer providing the correct year to use in the file name.
+Example: make_filename(2015)
+
+## fars_read_years
+
+Function: fars_read_years,  takes a vector of integer years as input and returns a list of data frames containing fatality incidents for every months for each given year.
+For every input, this function will call make_filename function, which creates the files name for the info in that year, then loads the created filename using  fars_read function, 
+and then filters the data to the month and years. 
+Usage: fars_read_years(years)
+Arguments: years. the years to find files to bring into R. Can be single or multiple values.
+Examples: 
+fars_read_years(years=c(2013,2015))
+or
+fars_read_years(c(2014,2015))
+
+## fars_summarize_year
+
+Function: fars_summarize_year takes a vector of integer years as input and returns a summarized data frame containing the number of incidents for every month & year.
+The dataframes are then unioned using a bind_rows function from dplyr. 
+Produced df is grouped by the year and month.
+The total number of records is then summarized with summarize function
+The results are represented with months as rows and years 
+as columns using the spread fnction from tidyr.
+Usage: fars_summarize_years(years)
+Arguments: years. 
+Example: fars_summarize_years(2013)
+
+
+## fars_map_state 
+Function: fars_map_state, takes an integer state number and integer year as inputs and returns a state map with plots, where each dot represents a fatality incident.
+Year is converted to a filename with make_filename function.
+The state number is set to an integer value. 
+Data is filtered using dplyr. Thresholds for lat & long are set, if it goes above or below, it gets a null value. accident locations are then plotted.
+Usage: fars_summarize_years(years)
+Arguments: state.num &  year. Both integer values.
+Examples: fars_map_state(1, 2015)
+
